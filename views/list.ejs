@@ -27,13 +27,13 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <ul class="list-group">
+    <ul class="">
       <% for(i=0;i<posts.length;i++){  %>
-        <li class="list-group-item disabled" aria-disabled="true">
+        <li class="list-group-item" aria-disabled="true">
           <span>번호 : <%=posts[i]._id%>  </span>
           <h4>할일제목 : <%=posts[i].제목%> </h4>
           <p>할일 마감날짜:  <%=posts[i].날짜%></p>
-          <button class="delete" data-id= <%=posts[i]._id%>>삭제</button>
+          <button class="delete" id="btn" data-id= <%=posts[i]._id%>>삭제</button>
         </li>
       <%}%>
     </ul>
@@ -44,17 +44,22 @@
 
     <script>
       $('.delete').click(function(e){  
-        console.log("click!");
         var test = e.target.dataset.id;
+        var clickThis = $(this);
         $.ajax({  
           method:'DELETE',
           url:'/delete',
           data:{_id : test},
-        }).done(function(result){
+        }).done(()=>{
+          alert('삭제 완료 되었습니다!')
+          clickThis.parent('li').fadeOut();
+        })
+        .fail(()=>{
 
         })
       })
-      console.log($('delete'))
+
+
     </script>
 
   

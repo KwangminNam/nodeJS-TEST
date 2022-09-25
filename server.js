@@ -17,14 +17,6 @@ MongoClient.connect('mongodb+srv://rhkd93:ska944@cluster0.uaatmat.mongodb.net/?r
   });
 })
 
-app.get('/pet',(요청,응답)=>{
-  응답.send('펫1111')
-})
-
-app.get('/beauty',(요청,응답)=>{
-  응답.send('뷰티11')
-})
-
 app.get('/',(요청,응답)=>{
   응답.sendFile(  __dirname + '/index.html');
 })
@@ -68,7 +60,15 @@ app.delete('/delete' , function(req,res){
   console.log(req.body)
   req.body._id = parseInt(req.body._id);
   db.collection('post').deleteOne(req.body,(err,result)=>{
-    console.log('삭제완료!')
+    console.log('삭제완료!');
+    res.status(200).send({message : '성공!'})
+  })
+})
+
+app.get('/detail/:id',(req,res)=>{
+  db.collection('post').findOne({_id:parseInt(req.params.id)},(err,result)=>{
+    console.log(result)
+    res.render('details.ejs',{data:result})
   })
 })
  
